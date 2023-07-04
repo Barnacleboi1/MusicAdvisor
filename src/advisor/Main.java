@@ -4,8 +4,11 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
-
+        CommandManager cm = new CommandManager();
+        while (!cm.isFinished()) {
+            cm.read();
+        }
+        /*
         Scanner scanner = new Scanner(System.in);
         boolean authorized = false;
         loop: while (true) {
@@ -70,5 +73,7 @@ public class Main {
                 }
             }
         }
+        
+         */
     }
 }
