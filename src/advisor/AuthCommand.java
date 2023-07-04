@@ -1,10 +1,18 @@
 package advisor;
 
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+
 public class AuthCommand implements Command{
     private CommandManager cm;
-
+    private String server;
     public AuthCommand(CommandManager cm) {
         this.cm = cm;
+        this.server = server;
     }
 
     @Override
@@ -14,8 +22,10 @@ public class AuthCommand implements Command{
 
     @Override
     public void execute() {
-        System.out.println("https://accounts.spotify.com/authorize?client_id=a19ee7dbfda443b2a8150c9101bfd645&redirect_uri=http://localhost:8080&response_type=code\n");
-        System.out.println("---SUCCESS---");
+        Authorisation auth = new Authorisation();
+        auth.getAccessCode();
+
+
         cm.setAuthorized(true);
     }
 }
