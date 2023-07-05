@@ -19,7 +19,6 @@ public class Authorisation {
     public static String SERVER_PATH = "https://accounts.spotify.com";
     public static String REDIRECT_URI = "http://localhost:8080";
     public static String CLIENT_ID = "1001f7400e724ede9a1cd4a1914fe86f";
-    public static String CLIENT_SECRET = "6c273a4bc860480fae15ce984825a3de";
     public static String ACCESS_TOKEN = "";
     public static String ACCESS_CODE = "";
 
