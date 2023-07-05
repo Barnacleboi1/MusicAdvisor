@@ -1,25 +1,25 @@
 package advisor;
 
-public class FeaturedCommand implements Command{
+public class CategoriesCommand implements Command{
     private CommandManager cm;
 
-    public FeaturedCommand(CommandManager cm) {
+    public CategoriesCommand(CommandManager cm) {
         this.cm = cm;
     }
     @Override
     public String getName() {
-        return "featured";
+        return "categories";
     }
 
     @Override
     public void execute() {
         if (cm.isAuthorized()) {
             System.out.println("""
-                    ---FEATURED---
-                    Mellow Morning
-                    Wake Up and Smell the Coffee
-                    Monday Motivation
-                    Songs to Sing in the Shower""");
+                    ---CATEGORIES---
+                    Top Lists
+                    Pop
+                    Mood
+                    Latin""");
         } else {
             System.out.println("Please, provide access for application.");
         }

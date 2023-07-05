@@ -1,25 +1,25 @@
 package advisor;
 
-public class FeaturedCommand implements Command{
+public class PlaylistsCommand implements Command {
     private CommandManager cm;
 
-    public FeaturedCommand(CommandManager cm) {
+    public PlaylistsCommand(CommandManager cm) {
         this.cm = cm;
     }
     @Override
     public String getName() {
-        return "featured";
+        return "playlists mood";
     }
 
     @Override
     public void execute() {
         if (cm.isAuthorized()) {
             System.out.println("""
-                    ---FEATURED---
-                    Mellow Morning
-                    Wake Up and Smell the Coffee
-                    Monday Motivation
-                    Songs to Sing in the Shower""");
+                    ---MOOD PLAYLISTS---
+                    Walk Like A Badass \s
+                    Rage Beats \s
+                    Arab Mood Booster \s
+                    Sunday Stroll""");
         } else {
             System.out.println("Please, provide access for application.");
         }
