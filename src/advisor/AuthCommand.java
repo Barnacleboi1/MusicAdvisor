@@ -9,10 +9,8 @@ import java.net.InetSocketAddress;
 
 public class AuthCommand implements Command{
     private CommandManager cm;
-    private String server;
     public AuthCommand(CommandManager cm) {
         this.cm = cm;
-        this.server = server;
     }
 
     @Override
@@ -24,7 +22,7 @@ public class AuthCommand implements Command{
     public void execute() {
         Authorisation auth = new Authorisation();
         auth.getAccessCode();
-
+        auth.getAccessToken();
 
         cm.setAuthorized(true);
     }
