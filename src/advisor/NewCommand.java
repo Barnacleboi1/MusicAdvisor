@@ -12,6 +12,11 @@ public class NewCommand implements Command{
     }
 
     @Override
+    public String getAPIendpoint() {
+        return "/v1/browse/new-releases";
+    }
+
+    @Override
     public void execute() {
         if (cm.isAuthorized()) {
             System.out.println("""

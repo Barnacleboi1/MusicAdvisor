@@ -13,9 +13,15 @@ public class AuthCommand implements Command{
         this.cm = cm;
     }
 
+
     @Override
     public String getName() {
         return "auth";
+    }
+
+    @Override
+    public String getAPIendpoint() {
+        return null;
     }
 
     @Override

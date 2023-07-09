@@ -8,6 +8,7 @@ public class CommandManager {
     private Set<Command> commands;
     private boolean authorized;
     private boolean finished;
+    public static String APIurl = "https://api.spotify.com";
     public CommandManager() {
         authorized = false;
         finished = false;

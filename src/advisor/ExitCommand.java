@@ -13,6 +13,11 @@ public class ExitCommand implements Command {
     }
 
     @Override
+    public String getAPIendpoint() {
+        return null;
+    }
+
+    @Override
     public void execute() {
         System.out.println("---GOODBYE!---");
         cm.setFinished(true);
