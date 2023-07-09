@@ -1,9 +1,8 @@
 package advisor;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.net.http.HttpResponse;
 import java.util.Set;
 
@@ -21,22 +20,19 @@ public class CategoriesCommand implements Command{
     }
 
     @Override
-    public void execute() {
+    public void execute(String[] args) {
+        if (args.length > 0) {
+            System.out.println("This command does not have arguments");
+            return;
+        }
         if (cm.isAuthorized()) {
-            HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .header("Authorization", "Bearer " + Authorisation.ACCESS_TOKEN)
-                    .uri(URI.create(CommandManager.APIurl + APIendpoint))
-                    .GET()
-                    .build();
-            HttpClient client = HttpClient.newBuilder().build();
-            HttpResponse<String> response;
-            try {
-                response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+            HttpResponse<String> response = CommandManager.HttpRequest(APIendpoint);
+            if (response.statusCode() == 404) {
+                String errorMSG = JsonParser.parseString(response.body()).getAsJsonObject().get("message").getAsString();
+                System.out.println(errorMSG);
                 return;
             }
-            Set<String> categoriesSet = CategoriesAndIDFinder.getCategoriesSet(response.body());
+            Set<String> categoriesSet = CommandManager.getCategoriesSet(response.body());
             for (String s : categoriesSet) {
                 System.out.println(s);
             }

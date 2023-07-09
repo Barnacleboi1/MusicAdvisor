@@ -18,7 +18,11 @@ public class ExitCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(String[] args) {
+        if (args.length > 0) {
+            System.out.println("This command does not have arguments");
+            return;
+        }
         System.out.println("---GOODBYE!---");
         cm.setFinished(true);
     }
