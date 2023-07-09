@@ -1,5 +1,9 @@
 package advisor;
 
+import com.google.gson.JsonParser;
+
+import java.net.http.HttpResponse;
+
 public class PlaylistsCommand implements Command {
     private CommandManager cm;
     private String categoryID;
@@ -7,8 +11,7 @@ public class PlaylistsCommand implements Command {
 
     public PlaylistsCommand(CommandManager cm) {
         this.cm = cm;
-        this.categoryID = "";
-        this.APIendpoint = "/v1/browse/categories/{category_id}/playlists";
+
     }
     @Override
     public String getName() {
@@ -17,7 +20,7 @@ public class PlaylistsCommand implements Command {
 
     @Override
     public String getAPIendpoint() {
-        return "/v1/browse/categories/{category_id}/playlists";
+        return APIendpoint;
     }
 
     @Override
@@ -30,10 +33,19 @@ public class PlaylistsCommand implements Command {
             System.out.println("This command does not have arguments");
             return;
         }
-        categoryID = CommandManager.findID(args[1]);
+        this.categoryID = cm.findID(args[0]);
+        this.APIendpoint = "/v1/browse/categories/"+ categoryID + "/playlists";
+
         if (cm.isAuthorized()) {
-            String response = CommandManager.HttpRequest(APIendpoint).body();
-            System.out.println(response);
+            HttpResponse<String> response = cm.httpRequest(APIendpoint);
+            if (response.statusCode() == 404) {
+                String errorMSG = JsonParser.parseString(response.body()).getAsJsonObject()
+                        .get("error").getAsJsonObject()
+                        .get("message").getAsString();
+                System.out.println(errorMSG);
+                return;
+            }
+            System.out.println(response.body());
         } else {
             System.out.println("Please, provide access for application.");
         }

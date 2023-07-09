@@ -13,7 +13,7 @@ import java.util.*;
 
 public class CommandManager {
     private Set<Command> commands;
-    public static Map<String, String> categoriesMap = new HashMap<>();
+    public Map<String, String> categoriesMap = new HashMap<>();
 
     private boolean authorized;
     private boolean finished;
@@ -36,24 +36,25 @@ public class CommandManager {
         for (Command command : commands) {
             if (input[0].equalsIgnoreCase(command.getName())) {
                 command.execute(Arrays.copyOfRange(input, 1, input.length));
+                return;
             }
         }
+        System.out.println("This command does not exist");
     }
 
-    public static String findID(String categoryName) {
+    public String findID(String categoryName) {
         String id = categoriesMap.get(categoryName);
 
         return id;
     }
-    public static Set<String> getCategoriesSet(String jsonString) {
+    public Set<String> getCategoriesSet(String jsonString) {
         JsonObject jo = JsonParser.parseString(jsonString).getAsJsonObject();
-
         for (JsonElement item : jo.getAsJsonObject("categories").getAsJsonArray("items")) {
             categoriesMap.put(item.getAsJsonObject().get("name").getAsString(), item.getAsJsonObject().get("id").getAsString());
         }
         return new HashSet<>(categoriesMap.keySet());
     }
-    public static HttpResponse<String> HttpRequest(String APIendpoint) {
+    public  HttpResponse<String> httpRequest(String APIendpoint) {
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .header("Authorization", "Bearer " + Authorisation.ACCESS_TOKEN)
                 .uri(URI.create(CommandManager.APIurl + APIendpoint))
@@ -67,6 +68,7 @@ public class CommandManager {
             e.printStackTrace();
             return null;
         }
+
         return response;
     }
 

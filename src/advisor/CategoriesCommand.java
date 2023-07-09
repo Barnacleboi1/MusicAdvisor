@@ -1,8 +1,5 @@
 package advisor;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.net.http.HttpResponse;
 import java.util.Set;
 
@@ -26,13 +23,9 @@ public class CategoriesCommand implements Command{
             return;
         }
         if (cm.isAuthorized()) {
-            HttpResponse<String> response = CommandManager.HttpRequest(APIendpoint);
-            if (response.statusCode() == 404) {
-                String errorMSG = JsonParser.parseString(response.body()).getAsJsonObject().get("message").getAsString();
-                System.out.println(errorMSG);
-                return;
-            }
-            Set<String> categoriesSet = CommandManager.getCategoriesSet(response.body());
+            HttpResponse<String> response = cm.httpRequest(APIendpoint);
+
+            Set<String> categoriesSet = cm.getCategoriesSet(response.body());
             for (String s : categoriesSet) {
                 System.out.println(s);
             }

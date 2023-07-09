@@ -1,5 +1,7 @@
 package advisor;
 
+import java.net.http.HttpRequest;
+
 public class AuthCommand implements Command{
     private CommandManager cm;
     public AuthCommand(CommandManager cm) {
@@ -28,5 +30,6 @@ public class AuthCommand implements Command{
         auth.getAccessToken();
 
         cm.setAuthorized(true);
+        cm.getCategoriesSet((cm.httpRequest("/v1/browse/categories").body()));
     }
 }
