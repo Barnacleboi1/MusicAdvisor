@@ -1,11 +1,6 @@
 package advisor;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
-
-import java.io.IOException;
-import java.net.InetSocketAddress;
+import java.net.http.HttpRequest;
 
 public class AuthCommand implements Command{
     private CommandManager cm;
@@ -25,11 +20,16 @@ public class AuthCommand implements Command{
     }
 
     @Override
-    public void execute() {
+    public void execute(String[] args) {
+        if (args.length > 0) {
+            System.out.println("This command does not have arguments");
+            return;
+        }
         Authorisation auth = new Authorisation();
         auth.getAccessCode();
         auth.getAccessToken();
 
         cm.setAuthorized(true);
+        cm.getCategoriesSet((cm.httpRequest("/v1/browse/categories").body()));
     }
 }
