@@ -12,6 +12,11 @@ public class FeaturedCommand implements Command{
     }
 
     @Override
+    public String getAPIendpoint() {
+        return "/v1/browse/featured-playlists";
+    }
+
+    @Override
     public void execute() {
         if (cm.isAuthorized()) {
             System.out.println("""

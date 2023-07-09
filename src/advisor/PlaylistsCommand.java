@@ -12,6 +12,11 @@ public class PlaylistsCommand implements Command {
     }
 
     @Override
+    public String getAPIendpoint() {
+        return null;
+    }
+
+    @Override
     public void execute() {
         if (cm.isAuthorized()) {
             System.out.println("""
