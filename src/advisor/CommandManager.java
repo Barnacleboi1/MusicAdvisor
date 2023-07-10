@@ -57,7 +57,7 @@ public class CommandManager {
     public  HttpResponse<String> httpRequest(String APIendpoint) {
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .header("Authorization", "Bearer " + Authorisation.ACCESS_TOKEN)
-                .uri(URI.create(CommandManager.APIurl + APIendpoint))
+                .uri(URI.create(APIurl + APIendpoint))
                 .GET()
                 .build();
         HttpClient client = HttpClient.newBuilder().build();

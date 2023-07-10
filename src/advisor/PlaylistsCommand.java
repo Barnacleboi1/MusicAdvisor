@@ -1,5 +1,7 @@
 package advisor;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.net.http.HttpResponse;
@@ -45,7 +47,15 @@ public class PlaylistsCommand implements Command {
                 System.out.println(errorMSG);
                 return;
             }
-            System.out.println(response.body());
+            JsonObject jsonResponse = JsonParser.parseString(response.body()).getAsJsonObject();
+            for (JsonElement playlist : jsonResponse.getAsJsonObject("playlists").getAsJsonArray("items")) {
+                System.out.println(playlist.getAsJsonObject().get("name").getAsString().replace("\"", ""));
+                System.out.println(playlist.getAsJsonObject()
+                        .get("external_urls").getAsJsonObject()
+                        .get("spotify").getAsString());
+                System.out.println();
+
+            }
         } else {
             System.out.println("Please, provide access for application.");
         }

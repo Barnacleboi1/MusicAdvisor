@@ -1,5 +1,11 @@
 package advisor;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.net.http.HttpResponse;
+
 public class FeaturedCommand implements Command{
     private CommandManager cm;
 
@@ -23,12 +29,15 @@ public class FeaturedCommand implements Command{
             return;
         }
         if (cm.isAuthorized()) {
-            System.out.println("""
-                    ---FEATURED---
-                    Mellow Morning
-                    Wake Up and Smell the Coffee
-                    Monday Motivation
-                    Songs to Sing in the Shower""");
+            HttpResponse<String> response = cm.httpRequest(getAPIendpoint());
+            JsonObject jsonResponse = JsonParser.parseString(response.body()).getAsJsonObject();
+            for (JsonElement featured : jsonResponse.getAsJsonObject("playlists").getAsJsonArray("items")) {
+                System.out.println(featured.getAsJsonObject().get("name").getAsString().replace("\"", ""));
+                System.out.println(featured.getAsJsonObject()
+                        .get("external_urls").getAsJsonObject()
+                        .get("spotify").getAsString());
+                System.out.println();
+            }
         } else {
             System.out.println("Please, provide access for application.");
         }
