@@ -1,6 +1,6 @@
 package advisor;
 
-import java.net.http.HttpRequest;
+import java.util.List;
 
 public class AuthCommand implements Command{
     private CommandManager cm;
@@ -20,16 +20,18 @@ public class AuthCommand implements Command{
     }
 
     @Override
-    public void execute(String[] args) {
+    public List<Output> execute(String[] args) {
         if (args.length > 0) {
             System.out.println("This command does not have arguments");
-            return;
+            return null;
         }
         Authorisation auth = new Authorisation();
         auth.getAccessCode();
         auth.getAccessToken();
 
         cm.setAuthorized(true);
-        cm.getCategoriesSet((cm.httpRequest("/v1/browse/categories").body()));
+        cm.getCategoriesList((cm.httpRequest("/v1/browse/categories").body()));
+        System.out.println("---SUCCESS---");
+        return null;
     }
 }
