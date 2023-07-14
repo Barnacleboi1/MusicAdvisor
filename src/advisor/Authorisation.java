@@ -92,7 +92,6 @@ public class Authorisation {
             JsonObject jsonObject = gson.fromJson(response.body(), JsonObject.class);
             ACCESS_TOKEN = jsonObject.get("access_token").getAsString();
             System.out.println(response.body());
-            System.out.println("---SUCCESS---");
 
         } catch (InterruptedException | IOException | RuntimeException e) {
             e.printStackTrace();

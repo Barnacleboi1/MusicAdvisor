@@ -1,5 +1,13 @@
 package advisor;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
+
 public class FeaturedCommand implements Command{
     private CommandManager cm;
 
@@ -17,20 +25,27 @@ public class FeaturedCommand implements Command{
     }
 
     @Override
-    public void execute(String[] args) {
+    public List<Output> execute(String[] args) {
         if (args.length > 0) {
             System.out.println("This command does not have arguments");
-            return;
+            return null;
         }
         if (cm.isAuthorized()) {
-            System.out.println("""
-                    ---FEATURED---
-                    Mellow Morning
-                    Wake Up and Smell the Coffee
-                    Monday Motivation
-                    Songs to Sing in the Shower""");
+            HttpResponse<String> response = cm.httpRequest(getAPIendpoint());
+            JsonObject jsonResponse = JsonParser.parseString(response.body()).getAsJsonObject();
+            List<Output> outputList = new ArrayList<>();
+            for (JsonElement featured : jsonResponse.getAsJsonObject("playlists").getAsJsonArray("items")) {
+                Output o = new Output();
+                o.setName(featured.getAsJsonObject().get("name").getAsString().replace("\"", ""));
+                o.setLink(featured.getAsJsonObject()
+                        .get("external_urls").getAsJsonObject()
+                        .get("spotify").getAsString());
+                outputList.add(o);
+            }
+            return outputList;
         } else {
             System.out.println("Please, provide access for application.");
+            return null;
         }
     }
 }

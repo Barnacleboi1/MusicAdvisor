@@ -1,5 +1,7 @@
 package advisor;
 
+import java.util.List;
+
 public class ExitCommand implements Command {
     private CommandManager cm;
 
@@ -18,12 +20,13 @@ public class ExitCommand implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public List<Output> execute(String[] args) {
         if (args.length > 0) {
             System.out.println("This command does not have arguments");
-            return;
+            return null;
         }
-        System.out.println("---GOODBYE!---");
         cm.setFinished(true);
+        System.out.println("---GOODBYE!---");
+        return null;
     }
 }

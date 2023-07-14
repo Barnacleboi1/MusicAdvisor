@@ -7,11 +7,14 @@ public class Main {
                 Authorisation.SERVER_PATH = args[i + 1];
             } else if (args[i].equals("-resource")) {
                 CommandManager.APIurl = args[i + 1];
+            } else if (args[i].equals("-page")) {
+                PagePrinter.entriesPerPage = Integer.parseInt(args[i + 1]);
             }
         }
         CommandManager cm = new CommandManager();
+        PagePrinter printer = new PagePrinter();
         while (!cm.isFinished()) {
-            cm.read();
+            printer.print(cm.read());
         }
     }
 }

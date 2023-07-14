@@ -14,7 +14,6 @@ import java.util.*;
 public class CommandManager {
     private Set<Command> commands;
     public Map<String, String> categoriesMap = new HashMap<>();
-
     private boolean authorized;
     private boolean finished;
     public static String APIurl = "https://api.spotify.com";
@@ -30,16 +29,17 @@ public class CommandManager {
         commands.add(new NewCommand(this));
         commands.add(new PlaylistsCommand(this));
     }
-    public void read() {
+    public List<Output> read() {
         Scanner scanner = new Scanner(System.in);
         String[] input = scanner.nextLine().split(" ");
         for (Command command : commands) {
             if (input[0].equalsIgnoreCase(command.getName())) {
-                command.execute(Arrays.copyOfRange(input, 1, input.length));
-                return;
+                return command.execute(Arrays.copyOfRange(input, 1, input.length));
+
             }
         }
         System.out.println("This command does not exist");
+        return null;
     }
 
     public String findID(String categoryName) {
@@ -47,17 +47,17 @@ public class CommandManager {
 
         return id;
     }
-    public Set<String> getCategoriesSet(String jsonString) {
+    public List<String> getCategoriesList(String jsonString) {
         JsonObject jo = JsonParser.parseString(jsonString).getAsJsonObject();
         for (JsonElement item : jo.getAsJsonObject("categories").getAsJsonArray("items")) {
             categoriesMap.put(item.getAsJsonObject().get("name").getAsString(), item.getAsJsonObject().get("id").getAsString());
         }
-        return new HashSet<>(categoriesMap.keySet());
+        return new ArrayList<>(categoriesMap.keySet());
     }
     public  HttpResponse<String> httpRequest(String APIendpoint) {
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .header("Authorization", "Bearer " + Authorisation.ACCESS_TOKEN)
-                .uri(URI.create(CommandManager.APIurl + APIendpoint))
+                .uri(URI.create(APIurl + APIendpoint))
                 .GET()
                 .build();
         HttpClient client = HttpClient.newBuilder().build();
