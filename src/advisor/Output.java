@@ -35,4 +35,14 @@ public class Output {
     public String getArtists() {
         return artists;
     }
+
+    @Override
+    public String toString() {
+        String nameString = name == null ? "" : name + "\n";
+        String categoryString = category == null ? "" : category;
+        String artistString = artists == null ? "" : artists + "\n";
+        String linkString = link == null ? "" : link + "\n";
+
+        return nameString + categoryString + artistString + linkString + "\n";
+    }
 }
