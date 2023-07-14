@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class PagePrinter {
     public static int entriesPerPage = 5;
-    int totalPages;   // total number of pages
-    int currentPage;  // current print page
-    int startObject;  // initial array object on the current page
+    int totalPages;
+    int currentPage;
+    int startObject;
     int endObject;
     public void print(List<Output> outputList) {
         if (outputList == null) {
